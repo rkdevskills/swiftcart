@@ -69,7 +69,7 @@ class CheckoutService
 
         return \Stripe\PaymentIntent::create([
             'amount'   => (int) round($amount * 100), // Stripe uses cents
-            'currency' => 'myr',
+            'currency' => 'gbp',
         ]);
     }
 }

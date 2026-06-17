@@ -41,9 +41,9 @@
                         </div>
                         <div class="flex-1">
                             <p class="text-sm font-medium text-gray-800">{{ $item->product->name }}</p>
-                            <p class="text-xs text-gray-400">RM {{ number_format($item->unit_price, 2) }} x {{ $item->quantity }}</p>
+                            <p class="text-xs text-gray-400">£ {{ number_format($item->unit_price, 2) }} x {{ $item->quantity }}</p>
                         </div>
-                        <span class="font-bold text-sm">RM {{ number_format($item->subtotal(), 2) }}</span>
+                        <span class="font-bold text-sm">£ {{ number_format($item->subtotal(), 2) }}</span>
                     </div>
                 @endforeach
             </div>
@@ -51,7 +51,7 @@
             {{-- Total --}}
             <div class="border-t mt-4 pt-4 flex justify-between font-bold text-gray-800">
                 <span>Total</span>
-                <span class="text-indigo-600">RM {{ number_format($order->total, 2) }}</span>
+                <span class="text-indigo-600">£ {{ number_format($order->total, 2) }}</span>
             </div>
         </div>
     </div>

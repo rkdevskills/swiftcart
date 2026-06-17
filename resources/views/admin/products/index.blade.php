@@ -31,7 +31,7 @@
                         <tr>
                             <td class="py-3 font-medium">{{ $product->name }}</td>
                             <td class="py-3 text-gray-600">{{ $product->category ? $product->category->name : '-' }}</td>
-                            <td class="py-3 text-gray-600">RM {{ number_format($product->price, 2) }}</td>
+                            <td class="py-3 text-gray-600">£ {{ number_format($product->price, 2) }}</td>
                             <td class="py-3">
                                 @if($product->is_active)
                                     <span class="px-2 py-1 text-xs bg-green-100 text-green-700 rounded-full">Active</span>

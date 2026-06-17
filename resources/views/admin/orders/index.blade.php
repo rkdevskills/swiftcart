@@ -24,7 +24,7 @@
                         <tr>
                             <td class="py-3 font-medium">{{ $order->id }}</td>
                             <td class="py-3 text-gray-600">{{ $order->user ? $order->user->name : 'Guest' }}</td>
-                            <td class="py-3 text-gray-600">RM {{ number_format($order->total, 2) }}</td>
+                            <td class="py-3 text-gray-600">£ {{ number_format($order->total, 2) }}</td>
                             <td class="py-3">
                                 @if($order->status == 'pending')
                                     <span class="px-2 py-1 text-xs bg-yellow-100 text-yellow-700 rounded-full">Pending</span>

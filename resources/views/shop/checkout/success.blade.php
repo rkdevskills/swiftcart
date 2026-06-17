@@ -20,14 +20,14 @@
             @foreach($order->items as $item)
                 <div class="flex justify-between text-sm">
                     <span class="text-gray-600">{{ $item->product->name }} x{{ $item->quantity }}</span>
-                    <span class="font-medium">RM {{ number_format($item->subtotal(), 2) }}</span>
+                    <span class="font-medium">£ {{ number_format($item->subtotal(), 2) }}</span>
                 </div>
             @endforeach
         </div>
 
         <div class="border-t pt-4 flex justify-between font-bold text-gray-800">
             <span>Total Paid</span>
-            <span class="text-indigo-600">RM {{ number_format($order->total, 2) }}</span>
+            <span class="text-indigo-600">£ {{ number_format($order->total, 2) }}</span>
         </div>
     </div>
 

@@ -27,7 +27,7 @@
                         {{ $order->items->count() }} item(s)
                     </div>
                     <div class="flex items-center gap-4">
-                        <span class="font-bold text-indigo-600">RM {{ number_format($order->total, 2) }}</span>
+                        <span class="font-bold text-indigo-600">£ {{ number_format($order->total, 2) }}</span>
 
                         {{-- Status Badge --}}
                         @php

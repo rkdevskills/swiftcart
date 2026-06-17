@@ -10,7 +10,7 @@
         {{-- Revenue --}}
         <div class="bg-white rounded-xl shadow-sm p-6">
             <p class="text-sm text-gray-400 mb-1">Total Revenue</p>
-            <p class="text-2xl font-bold text-indigo-600">RM {{ number_format($sumRevenue, 2) }}</p>
+            <p class="text-2xl font-bold text-indigo-600">£ {{ number_format($sumRevenue, 2) }}</p>
         </div>
 
         {{-- Orders --}}
@@ -56,7 +56,7 @@
                         <tr>
                             <td class="py-3 font-medium">#{{ $order->id }}</td>
                             <td class="py-3 text-gray-600">{{ $order->user->name }}</td>
-                            <td class="py-3 font-medium text-indigo-600">RM {{ number_format($order->total, 2) }}</td>
+                            <td class="py-3 font-medium text-indigo-600">£ {{ number_format($order->total, 2) }}</td>
                             <td class="py-3">
                                 @php
                                     $badge = match($order->status) {

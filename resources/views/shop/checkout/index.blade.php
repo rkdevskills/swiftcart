@@ -73,7 +73,7 @@
                             <span class="text-gray-600 line-clamp-1 flex-1 mr-2">
                                 {{ $item->product->name }} x{{ $item->quantity }}
                             </span>
-                            <span class="font-medium shrink-0">RM {{ number_format($item->subtotal(), 2) }}</span>
+                            <span class="font-medium shrink-0">£ {{ number_format($item->subtotal(), 2) }}</span>
                         </div>
                     @endforeach
                 </div>
@@ -81,7 +81,7 @@
                 <div class="border-t pt-4 space-y-2 text-sm">
                     <div class="flex justify-between text-gray-600">
                         <span>Subtotal</span>
-                        <span>RM {{ number_format($total, 2) }}</span>
+                        <span>£ {{ number_format($total, 2) }}</span>
                     </div>
                     <div class="flex justify-between text-gray-600">
                         <span>Shipping</span>
@@ -89,13 +89,13 @@
                     </div>
                     <div class="flex justify-between font-bold text-gray-800 text-base pt-2 border-t">
                         <span>Total</span>
-                        <span class="text-indigo-600">RM {{ number_format($total, 2) }}</span>
+                        <span class="text-indigo-600">£ {{ number_format($total, 2) }}</span>
                     </div>
                 </div>
 
                 <button type="submit" id="submit-btn"
                         class="mt-6 w-full bg-indigo-600 text-white py-3 rounded-xl font-semibold hover:bg-indigo-700 transition disabled:opacity-50">
-                    Pay RM {{ number_format($total, 2) }}
+                    Pay £ {{ number_format($total, 2) }}
                 </button>
             </div>
         </div>
@@ -129,7 +129,7 @@
         if (error) {
             document.getElementById('card-errors').textContent = error.message;
             btn.disabled = false;
-            btn.textContent = 'Pay RM {{ number_format($total, 2) }}';
+            btn.textContent = 'Pay £ {{ number_format($total, 2) }}';
         } else {
             document.getElementById('payment-intent-id').value = paymentIntent.id;
             e.target.submit();

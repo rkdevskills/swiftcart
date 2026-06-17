@@ -40,7 +40,7 @@
                             {{ $item->product->name }}
                         </a>
                         <p class="text-indigo-600 font-bold mt-1">
-                            RM {{ number_format($item->product->price, 2) }}
+                            £ {{ number_format($item->product->price, 2) }}
                         </p>
                     </div>
 
@@ -60,20 +60,51 @@
                     {{-- Subtotal --}}
                     <div class="text-right shrink-0">
                         <p class="font-bold text-gray-800">
-                            RM {{ number_format($item->subtotal(), 2) }}
+                            £ {{ number_format($item->subtotal(), 2) }}
                         </p>
                     </div>
 
                     {{-- Remove --}}
-                    <form method="POST" action="{{ route('cart.destroy', $item) }}">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit"
-                                class="text-red-400 hover:text-red-600 text-lg transition"
-                                onclick="return confirm('Remove this item?')">
+                    <div x-data="{ open: false }">
+
+                        {{-- Trigger button --}}
+                        <button type="button"
+                                @click="open = true"
+                                class="text-red-400 hover:text-red-600 text-lg transition">
                             ✕
                         </button>
-                    </form>
+
+                        {{-- Form --}}
+                        <form method="POST"
+                            action="{{ route('cart.destroy', $item) }}"
+                            x-ref="deleteForm">
+                            @csrf
+                            @method('DELETE')
+                        </form>
+
+                        {{-- Modal --}}
+                        <div x-show="open"
+                            x-transition
+                            class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                            <div class="bg-white rounded-xl p-6 shadow-xl max-w-sm w-full mx-4">
+                                <h3 class="font-bold text-gray-800 mb-2">Remove Item</h3>
+                                <p class="text-sm text-gray-500 mb-6">Are you sure you want to remove this item?</p>
+                                <div class="flex gap-3">
+                                    <button type="button"
+                                            @click="open = false"
+                                            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-600 hover:bg-gray-50 transition">
+                                        Cancel
+                                    </button>
+                                    <button type="button"
+                                            @click="$refs.deleteForm.submit()"
+                                            class="flex-1 px-4 py-2 bg-red-500 text-white rounded-lg text-sm font-semibold hover:bg-red-600 transition">
+                                        Remove
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             @endforeach
         </div>
@@ -86,7 +117,7 @@
                 <div class="space-y-3 text-sm text-gray-600 mb-6">
                     <div class="flex justify-between">
                         <span>Subtotal ({{ $cartItems->count() }} items)</span>
-                        <span>RM {{ number_format($total, 2) }}</span>
+                        <span>£ {{ number_format($total, 2) }}</span>
                     </div>
                     <div class="flex justify-between">
                         <span>Shipping</span>
@@ -94,7 +125,7 @@
                     </div>
                     <div class="border-t pt-3 flex justify-between font-bold text-gray-800 text-base">
                         <span>Total</span>
-                        <span class="text-indigo-600">RM {{ number_format($total, 2) }}</span>
+                        <span class="text-indigo-600">£ {{ number_format($total, 2) }}</span>
                     </div>
                 </div>
 

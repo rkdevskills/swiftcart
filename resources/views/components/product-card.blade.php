@@ -22,7 +22,7 @@
         <h3 class="font-semibold text-gray-800 text-sm leading-snug mb-2 line-clamp-2">{{ $product->name }}</h3>
 
         <div class="flex items-center justify-between">
-            <span class="text-indigo-600 font-bold">RM {{ number_format($product->price, 2) }}</span>
+            <span class="text-indigo-600 font-bold">£ {{ number_format($product->price, 2) }}</span>
 
             @if($product->reviews->count() > 0)
                 <span class="text-xs text-gray-400">

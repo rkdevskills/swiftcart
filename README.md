@@ -1,58 +1,134 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# SwiftCart 🛍️
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A full-stack e-commerce application built with Laravel 11, featuring a complete shopping experience and admin panel.
 
-## About Laravel
+## 🔗 Live Demo
+https://swiftcart-2fag.onrender.com
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+> Note: This is hosted on Render's free tier, so the first load may take 30-60 seconds if the app has been idle.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🖼️ Screenshots
+### 🛍️ Shop
+![Homepage](public/screenshots/Homepage.png)
+![Product Detail](public/screenshots/product-detail.png)
+![Cart](public/screenshots/cart.png)
+![Checkout](public/screenshots/checkout.png)
+![Orders](public/screenshots/orders.png)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### ⚙️ Admin Panel
+![Admin Dashboard](public/screenshots/admin-dashboard.png)
+![Admin Products](public/screenshots/admin-products.png)
 
-## Learning Laravel
+## 🛠️ Tech Stack
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+| Layer | Technology |
+|---|---|
+| Backend | Laravel 11 |
+| Frontend | Blade + Tailwind CSS |
+| Database | MySQL |
+| Payments | Stripe |
+| Auth | Laravel Breeze |
+| Testing | PHPUnit |
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## ✨ Features
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+### Customer
+- 🔍 Product listing with search and category filters
+- 🛒 Shopping cart (add, update, remove)
+- 💳 Stripe checkout with test payments
+- 📦 Order history and order detail
+- ⭐ Product reviews (verified purchases only)
 
-## Agentic Development
+### Admin Panel
+- 📊 Dashboard with revenue and order stats
+- 📁 Category management (CRUD)
+- 📦 Product management (CRUD) with image uploads
+- 🧾 Order management with status updates
+- ⭐ Review approval system
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+## 🚀 Setup Instructions
 
+**1. Clone the repository**
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+git clone https://github.com/YOUR_USERNAME/swiftcart.git
+cd swiftcart
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+**2. Install dependencies**
+```bash
+composer install
+npm install
+```
 
-## Contributing
+**3. Configure environment**
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+**4. Update `.env`**
+```env
+DB_DATABASE=laravel_shop
+DB_USERNAME=root
+DB_PASSWORD=
 
-## Code of Conduct
+STRIPE_KEY=your_stripe_public_key
+STRIPE_SECRET=your_stripe_secret_key
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+**5. Run migrations and seeders**
+```bash
+php artisan migrate --seed
+```
 
-## Security Vulnerabilities
+**6. Start the server**
+```bash
+php artisan serve
+npm run dev
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+**7. Visit `http://localhost:8000`**
 
-## License
+## 🔐 Demo Accounts
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+| Role | Email | Password |
+|---|---|---|
+| Admin | admin@shop.com | password |
+| Customer | customer@shop.com | password |
+
+## 💳 Test Payment
+
+Use Stripe test card:
+```
+Card Number: 4242 4242 4242 4242
+Expiry: Any future date
+CVC: Any 3 digits
+```
+
+## 🧪 Running Tests
+
+```bash
+php artisan test
+```
+
+## 📁 Project Structure
+
+```
+app/
+├── Http/
+│   ├── Controllers/
+│   │   ├── Admin/      ← Admin controllers
+│   │   └── Shop/       ← Customer controllers
+│   └── Middleware/     ← Custom middleware
+├── Models/             ← Eloquent models
+└── Services/           ← Business logic
+```
+
+## 🎯 Key Technical Decisions
+
+- **Service classes** — business logic separated from controllers
+- **Route model binding** — clean controller methods
+- **Database transactions** — atomic order creation
+- **Eager loading** — N+1 query prevention
+- **Custom middleware** — admin route protection
+- **Policy-based authorization** — ownership checks

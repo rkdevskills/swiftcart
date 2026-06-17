@@ -65,14 +65,24 @@
         {{-- Content --}}
         <main class="flex-1 p-8">
             @if(session('success'))
-                <div class="mb-6 bg-green-100 border border-green-300 text-green-700 px-4 py-3 rounded-lg">
-                    {{ session('success') }}
+                <div x-data="{ show: true }"
+                    x-show="show"
+                    x-init="setTimeout(() => show = false, 4000)"
+                    x-transition
+                    class="mb-4 bg-green-100 border border-green-300 text-green-700 px-4 py-3 rounded-lg flex items-center justify-between">
+                    <span>{{ session('success') }}</span>
+                    <button @click="show = false" class="text-green-500 hover:text-green-700 ml-4">✕</button>
                 </div>
             @endif
 
             @if(session('error'))
-                <div class="mb-6 bg-red-100 border border-red-300 text-red-700 px-4 py-3 rounded-lg">
-                    {{ session('error') }}
+                <div x-data="{ show: true }"
+                    x-show="show"
+                    x-init="setTimeout(() => show = false, 4000)"
+                    x-transition
+                    class="mb-4 bg-red-100 border border-red-300 text-red-700 px-4 py-3 rounded-lg flex items-center justify-between">
+                    <span>{{ session('error') }}</span>
+                    <button @click="show = false" class="text-red-500 hover:text-red-700 ml-4">✕</button>
                 </div>
             @endif
 

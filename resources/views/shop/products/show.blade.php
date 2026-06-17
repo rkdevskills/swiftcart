@@ -22,7 +22,7 @@
         <div class="space-y-3">
             <div class="aspect-square rounded-xl overflow-hidden bg-gray-100">
                 @if($product->primaryImage)
-                    <img src="{{ asset('storage/' . $product->primaryImage->url()) }}"
+                    <img src="{{ $product->primaryImage->url() }}"
                          alt="{{ $product->name }}"
                          class="w-full h-full object-cover" id="main-image"/>
                 @else
@@ -58,7 +58,7 @@
             @endif
 
             <p class="text-3xl font-bold text-indigo-600 mb-4">
-                RM {{ number_format($product->price, 2) }}
+                £ {{ number_format($product->price, 2) }}
             </p>
 
             <p class="text-gray-600 text-sm leading-relaxed mb-6">{{ $product->description }}</p>

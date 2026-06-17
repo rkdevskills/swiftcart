@@ -12,31 +12,36 @@ class ReviewController extends Controller
 {
     public function store(Request $request, Product $product)
     {
-        // Validate input
         $validated = $request->validate([
             'rating' => 'required|integer|min:1|max:5',
-            'body' => 'nullable|string|max:1000',
+            'body'   => 'nullable|string|max:1000',
         ]);
 
-        //check if user has purchased the product
         $hasPurchased = $product->orderItems()
-            ->whereHas('order', fn($q) => $q->where('user_id', Auth::id())->where('status', '!=', 'cancelled'))
+            ->whereHas('order', fn($q) => $q->where('user_id', Auth::id())
+            ->where('status', '!=', 'cancelled'))
             ->exists();
 
-        abort_if(! $hasPurchased, 403);
-        
-        //check if user has already reviewed the product
-        $hasReviewed = Review::where('user_id', Auth::id())->where('product_id', $product->id)->exists();
+        if (! $hasPurchased) {
+            return redirect()->route('products.show', $product)
+                ->with('error', 'You must purchase this product before leaving a review.');
+        }
 
-        abort_if($hasReviewed, 403);
+        $hasReviewed = Review::where('user_id', Auth::id())
+            ->where('product_id', $product->id)
+            ->exists();
 
-        // Create review (pending approval)
+        if ($hasReviewed) {
+            return redirect()->route('products.show', $product)
+                ->with('error', 'You have already reviewed this product.');
+        }
+
         Review::create([
-            'user_id' => Auth::id(),
+            'user_id'    => Auth::id(),
             'product_id' => $product->id,
-            'rating' => $validated['rating'],
-            'body' => $validated['body'],
-            'is_approved' => false, // Admin approval required
+            'rating'     => $validated['rating'],
+            'body'       => $validated['body'] ?? null,
+            'is_approved'=> false,
         ]);
 
         return redirect()->route('products.show', $product)->with('success', 'Review submitted and awaiting approval.');
@@ -46,10 +51,13 @@ class ReviewController extends Controller
     {
         /** @var \App\Models\User $user */
         $user = Auth::user();
-        // Only allow users to delete their own reviews or admins to delete any review
-        abort_if($review->user_id !== $user->id && ! $user->isAdmin(), 403);
+
+        if ($review->user_id !== $user->id && ! $user->isAdmin()) {
+            return redirect()->back()->with('error', 'You are not authorized to delete this review.');
+        }
 
         $review->delete();
+
         return redirect()->back()->with('success', 'Review deleted successfully.');
     }
 }

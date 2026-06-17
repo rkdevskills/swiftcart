@@ -86,15 +86,18 @@ class ReviewTest extends TestCase
     // ── Test 2 ────────────────────────────────────────
     public function test_customer_cannot_review_without_purchase()
     {
-        $response = $this->actingAs($this->customer)->post("/products/{$this->product->id}/reviews", [
-            'rating' => 4,
-            'body'   => 'Looks good, but I haven\'t bought it.',
-        ]);
+        $response = $this->actingAs($this->customer)
+                     ->post("/products/{$this->product->id}/reviews", [
+                         'rating' => 5,
+                         'body'   => 'Great product!',
+                     ]);
 
-        $response->assertForbidden();
+        $response->assertRedirect(route('products.show', $this->product));
+        $response->assertSessionHas('error');
+
         $this->assertDatabaseMissing('reviews', [
+            'user_id'    => $this->customer->id,
             'product_id' => $this->product->id,
-            'user_id' => $this->customer->id,
         ]);
     }
 
@@ -123,29 +126,22 @@ class ReviewTest extends TestCase
     {
         $this->createOrderForCustomer($this->customer, $this->product);
 
-        // First review
         $this->actingAs($this->customer)->post("/products/{$this->product->id}/reviews", [
             'rating' => 5,
             'body'   => 'First review.',
         ]);
 
-        // Attempt to submit a second review for the same product
         $response = $this->actingAs($this->customer)->post("/products/{$this->product->id}/reviews", [
             'rating' => 4,
             'body'   => 'Second review attempt.',
         ]);
 
-        $response->assertForbidden();
-        $this->assertDatabaseMissing('reviews', [
-            'product_id' => $this->product->id,
-            'user_id' => $this->customer->id,
-            'body' => 'Second review attempt.',
-        ]);
+        $response->assertRedirect(route('products.show', $this->product));
+        $response->assertSessionHas('error');
 
-        // Assert only one review exists
         $this->assertEquals(1, Review::where([
+            'user_id'    => $this->customer->id,
             'product_id' => $this->product->id,
-            'user_id' => $this->customer->id,
         ])->count());
     }
     
@@ -170,18 +166,24 @@ class ReviewTest extends TestCase
     // ── Test 6 ────────────────────────────────────────
     public function test_customer_cannot_delete_others_review()
     {
-        $otherCustomer = User::factory()->create(['role' => 'customer']);
+        $anotherCustomer = User::factory()->create(['role' => 'customer']);
 
-        $this->createOrderForCustomer($otherCustomer, $this->product);
+        $this->createOrderForCustomer($anotherCustomer, $this->product);
 
-        $review = Review::factory()->create([
+        $review = Review::create([
+            'user_id'    => $anotherCustomer->id,
             'product_id' => $this->product->id,
-            'user_id' => $otherCustomer->id,
+            'rating'     => 5,
+            'body'       => 'Great product!',
+            'is_approved'=> false,
         ]);
 
-        $response = $this->actingAs($this->customer)->delete("/reviews/{$review->id}");
+        $response = $this->actingAs($this->customer)
+                        ->delete("/reviews/{$review->id}");
 
-        $response->assertForbidden();
+        $response->assertRedirect();
+        $response->assertSessionHas('error');
+
         $this->assertDatabaseHas('reviews', [
             'id' => $review->id,
         ]);

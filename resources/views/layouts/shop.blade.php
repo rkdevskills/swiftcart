@@ -63,14 +63,20 @@
     {{-- Page Content --}}
     <main class="flex-1 max-w-7xl mx-auto px-4 py-8 w-full">
         @if(session('success'))
-            <div class="mb-4 bg-green-100 border border-green-300 text-green-700 px-4 py-3 rounded-lg">
-                {{ session('success') }}
+            <div x-data="{ show: true }"
+                    x-show="show"
+                    x-init="setTimeout(() => show = false, 3000)"
+                    class="mb-4 bg-green-100 border border-green-300 text-green-700 px-4 py-3 rounded-lg">
+                    {{ session('success') }}
             </div>
         @endif
 
         @if(session('error'))
-            <div class="mb-4 bg-red-100 border border-red-300 text-red-700 px-4 py-3 rounded-lg">
-                {{ session('error') }}
+            <div x-data="{ show: true }"
+                    x-show="show"
+                    x-init="setTimeout(() => show = false, 3000)"
+                    class="mb-4 bg-red-100 border border-red-300 text-red-700 px-4 py-3 rounded-lg">
+                    {{ session('error') }}
             </div>
         @endif
 
